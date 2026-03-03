@@ -90,21 +90,24 @@ ORDER BY
 SELECT MIN(e.BirthDate) FROM Employee e
 
 -- List the 10 latest invoices. Include the InvoiceId, InvoiceDate and Total
+
+
+-- Then  also include the customer full name (first and last name together)
 SELECT TOP 10
     i.InvoiceId,
     i.InvoiceDate,
     i.Total,
     c.FirstName,
     c.LastName,
-    c.FirstName + ' ' + c.LastName AS FullName
+    CONCAT(c.FirstName, ' ', c.LastName, i.InvoiceId) AS CustomerFullName2,
+    c.SupportRepId,
+    CONCAT(e.FirstName, ' ', e.LastName) AS EmplyeeFullName
 FROM
-    Invoice i
+    Invoice i 
 LEFT JOIN Customer c ON i.CustomerId = c.CustomerId
+LEFT JOIN Employee e ON c.SupportRepId = e.EmployeeId
 ORDER BY
     I.InvoiceDate DESC
-
--- Then  also include the customer full name (first and last name together)
-
 
 -- List the customers who have spent more than £45
 
